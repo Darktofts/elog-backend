@@ -87,4 +87,32 @@ class JobController extends AbstractApiController
 
         return $this->returnViewResponse($this->getErrors($form), Response::HTTP_BAD_REQUEST);
     }
+    
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     *
+     * @Route("/{job}")
+     * @Method("PUT")
+     */
+    public function putAction(Request $request, Job $job)
+    {
+    
+        $form = $this->createForm('AppBundle\Form\Type\JobType', $job, ['method' => 'PUT']);
+        //$form->handleRequest($request);
+
+        $data = json_decode($request->getContent(), true);
+        $form->submit($data);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            return $this->returnViewResponse($job, Response::HTTP_CREATED);
+        }
+
+        return $this->returnViewResponse($this->getErrors($form), Response::HTTP_BAD_REQUEST);
+    }
+
 }
+

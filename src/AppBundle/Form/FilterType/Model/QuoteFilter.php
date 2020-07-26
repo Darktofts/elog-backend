@@ -4,7 +4,7 @@ namespace AppBundle\Form\FilterType\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class JobFilter
+class QuoteFilter
 {
     const LIMIT = 30;
 
@@ -64,9 +64,9 @@ class JobFilter
     protected $serialisationGroups;
 
     /**
-     * @var int
+     * @var string
      *
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="string")
      */
     protected $status;
 

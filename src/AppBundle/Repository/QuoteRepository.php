@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Form\FilterType\Model\ListFilter;
+use AppBundle\Form\FilterType\Model\QuoteFilter;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -17,10 +18,10 @@ class QuoteRepository extends EntityRepository
      *
      * @return QueryBuilder
      */
-    public function filterAndReturnQuery(ListFilter $listFilterModel)
+    public function filterAndReturnQuery(QuoteFilter $listFilterModel)
     {
         $qb = $this->createQueryBuilder('q')
-            ->setMaxResults(ListFilter::LIMIT)
+            ->setMaxResults(QuoteFilter::LIMIT)
         ;
 
         $this->applyFilter($qb, $listFilterModel);
@@ -34,8 +35,9 @@ class QuoteRepository extends EntityRepository
      *
      * @return $this
      */
-    public function applyFilter(QueryBuilder $qb, ListFilter $listFilterModel)
+    public function applyFilter(QueryBuilder $qb, QuoteFilter $listFilterModel)
     {
+
         if ($listFilterModel->getOrderKey()) {
             $qb->orderBy(
                 sprintf('q.%s', $listFilterModel->getOrderKey()),
@@ -43,11 +45,33 @@ class QuoteRepository extends EntityRepository
             );
         }
 
-        if ($listFilterModel->getKeyword()) {
+        if($listFilterModel->getPriority())
+        {
+           $qb
+              ->andWhere(sprintf(" q.priority LIKE '%s' ", "%".$listFilterModel->getPriority()."%"));
+        }
+
+        if($listFilterModel->getCustomer())
+        {
+          $qb
+            ->andWhere(sprintf(" q.customer = %d ", $listFilterModel->getCustomer()));
+        }
+
+        if($listFilterModel->getStatus())
+        {
             $qb
-                ->andWhere('LOWER(q.description) LIKE :keyword')
-                ->setParameter(':keyword', '%'.addcslashes($listFilterModel->getKeyword(), '%_').'%')
-            ;
+                ->andWhere(sprintf(" q.status = '%s' ", $listFilterModel->getStatus()));
+        }
+        if($listFilterModel->getType())
+        {
+            $qb
+                ->andWhere(sprintf("q.type = '%s' ",$listFilterModel->getType()));
+        }
+
+        if($listFilterModel->getDescription())
+        {
+            $qb
+                ->andWhere(sprintf("q.description LIKE '%s'","%".$listFilterModel->getDescription()."%"));
         }
 
     }

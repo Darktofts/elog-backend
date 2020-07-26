@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\FilterType\Model\ListFilter;
+use AppBundle\Form\FilterType\Model\QuoteFilter;
 use Knp\Component\Pager\Pagination\AbstractPagination;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -36,8 +37,9 @@ class QuoteController extends AbstractApiController
      */
     public function cgetAction(Request $request)
     {
-        $filter = new ListFilter();
-        $form = $this->createForm('AppBundle\Form\FilterType\ListFilterType', $filter, ['method' => 'GET']);
+        $filter = new QuoteFilter();
+
+        $form = $this->createForm('AppBundle\Form\FilterType\QuoteFilterType', $filter, ['method' => 'GET']);
         $form->handleRequest($request);
 
         if ($this->getErrors($form)) {

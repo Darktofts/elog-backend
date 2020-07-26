@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
+
 /**
  * @ORM\Table(name="job")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\JobRepository")
@@ -12,7 +13,8 @@ use JMS\Serializer\Annotation as JMS;
 class Job
 {
     const STATUS_OPEN = 0;
-    const STATUS_DONE = 1;
+    const STATUS_PROGRESS = 1;
+    const STATUS_DONE = 2;
 
     /**
      * @var integer
@@ -70,6 +72,26 @@ class Job
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+       return $this->status;
+    }
+
+    /**
+     * @param int $status
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
 
         return $this;
     }
