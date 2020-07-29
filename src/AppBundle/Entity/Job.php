@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 /**
@@ -45,6 +47,9 @@ class Job
      *
      * @JMS\Expose
      * @JMS\Groups({"default", "list"})
+     * 
+     * @Assert\Choice({0, 1, 2})
+     * 
      */
     protected $status = self::STATUS_OPEN;
 

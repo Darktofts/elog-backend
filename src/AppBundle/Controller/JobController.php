@@ -100,10 +100,10 @@ class JobController extends AbstractApiController
     {
     
         $form = $this->createForm('AppBundle\Form\Type\JobType', $job, ['method' => 'PUT']);
-        //$form->handleRequest($request);
+        $form->handleRequest($request);
 
-        $data = json_decode($request->getContent(), true);
-        $form->submit($data);
+       // $data = json_decode($request->getContent(), true);
+       // $form->submit($data);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
